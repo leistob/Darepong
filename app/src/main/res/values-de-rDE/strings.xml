@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">DarePong</string>
+    <string name="title_activity_settings">Einstellungen</string>
+    <string name="start">Starten</string>
+    <string name="continue_string">Weiter</string>
+    <string name="settings">Einstellungen</string>
+    <string name="manual">Anleitung</string>
+</resources>

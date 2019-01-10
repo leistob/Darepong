@@ -16,6 +16,23 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".IngameActivity"
+            android:label="@string/title_activity_ingame"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:parentActivityName=".MainActivity"/>
+        <activity
+            android:name=".ManualActivity"
+            android:label="@string/title_activity_manual"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <!--<activity android:name=".AppCompatPreferenceActivity"
+            android:label="AppCompatPreferenceActivity"
+            android:parentActivityName=".MainActivity"/>-->
     </application>
 
 </manifest>
