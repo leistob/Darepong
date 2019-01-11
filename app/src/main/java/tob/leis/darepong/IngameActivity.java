@@ -1,17 +1,25 @@
 package tob.leis.darepong;
 
+import android.app.Dialog;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Layout;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 public class IngameActivity extends AppCompatActivity {
+
+    private static final String LOG_TAG = "IngameActivity";
 
     private LinearLayout team1Pyramid, team2Pyramid;
 
@@ -99,16 +107,16 @@ public class IngameActivity extends AppCompatActivity {
 
     class ButtonListener implements View.OnClickListener {
 
+        private static final int DARE_FAILED = -1;
+        private static final int DARE_SUCCESS = 0;
+        private static final int DARE_CANCELED = 1;
+
         private boolean clickedAlready = false;
 
         @Override
         public void onClick(View view) {
 
-            if(clickedAlready){
-
-            } else {
-
-            }
+            createDareDialogActivity();
 
             //TODO:
             //1) Popup dialog menu with dare and fulfilled yes no and selected cup
@@ -118,4 +126,58 @@ public class IngameActivity extends AppCompatActivity {
 
         }
     }
+
+
+    private void createDareDialogActivity() {
+        Log.d(LOG_TAG, "Cup clicked!");
+
+        Intent intent = new Intent(this, DareDialogActivity.class);
+        startActivity(intent);
+    }
+
+
+    /*
+
+    public void createDialog() {
+
+        // custom dialog
+        final Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.dialog_pong);
+        dialog.setTitle("Title...");
+
+        // set the custom dialog components - text, image and button
+        TextView text = (TextView) dialog.findViewById(R.id.text);
+
+        //TODO: get random dare
+        text.setText("Android custom dialog example!");
+
+        ImageButton cancelButton = dialog.findViewById(R.id.dialogButtonOK);
+        ImageButton successButton = dialog.findViewById(R.id.button_success);
+        ImageButton failureButton = dialog.findViewById(R.id.button_failure);
+
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        successButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        failureButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
+    }*/
 }

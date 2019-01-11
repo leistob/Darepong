@@ -24,15 +24,24 @@
         <activity
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:parentActivityName=".MainActivity"/>
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".ManualActivity"
             android:label="@string/title_activity_manual"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <!--<activity android:name=".AppCompatPreferenceActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <!--
+            <activity android:name=".AppCompatPreferenceActivity"
             android:label="AppCompatPreferenceActivity"
-            android:parentActivityName=".MainActivity"/>-->
+            android:parentActivityName=".MainActivity"/>
+        -->
+        <activity
+            android:name=".DareDialogActivity"
+            android:label="DareDialogActivity"
+            android:parentActivityName=".IngameActivity"
+            android:theme="@android:style/Theme.Dialog"
+            android:excludeFromRecents="true" />
+
     </application>
 
 </manifest>
