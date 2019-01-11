@@ -1,27 +1,18 @@
 package tob.leis.darepong;
 
-import android.app.Dialog;
+import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Layout;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
-public class IngameActivity extends AppCompatActivity {
+public class IngameActivity extends Activity {
 
     private static final String LOG_TAG = "IngameActivity";
-
-    private LinearLayout team1Pyramid, team2Pyramid;
 
     private int size = 10;
 
@@ -29,19 +20,15 @@ public class IngameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ingame);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        //setSupportActionBar(toolbar);
 
-
-        team1Pyramid = findViewById(R.id.team1_layout);
-        team2Pyramid = findViewById(R.id.team2_layout);
+        LinearLayout team1Pyramid = findViewById(R.id.team1_layout);
+        LinearLayout team2Pyramid = findViewById(R.id.team2_layout);
 
         fillPyramidDown(team1Pyramid);
         fillPyramidUp(team2Pyramid);
     }
-
-
-
 
     private void fillPyramidUp(LinearLayout teamPyramid) {
 
@@ -92,16 +79,12 @@ public class IngameActivity extends AppCompatActivity {
         layout.setLayoutParams(params);
         layout.setOrientation(LinearLayout.HORIZONTAL);
 
-
         for(int i=0; i<size; i++) {
             ImageButton btn = new ImageButton(this);
             btn.setImageResource(R.drawable.group_work_24px);
-
+            btn.setOnClickListener(new ButtonListener());
             layout.addView(btn);
         }
-
-
-
         return layout;
     }
 
