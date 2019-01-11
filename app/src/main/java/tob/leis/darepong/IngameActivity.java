@@ -1,16 +1,21 @@
 package tob.leis.darepong;
 
-import android.app.Activity;
-import android.content.Intent;
+import android.app.Dialog;
+import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
-public class IngameActivity extends Activity {
+public class IngameActivity extends AppCompatActivity {
 
     private static final String LOG_TAG = "IngameActivity";
 
@@ -21,7 +26,7 @@ public class IngameActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ingame);
         Toolbar toolbar = findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
+        setSupportActionBar(toolbar);
 
         LinearLayout team1Pyramid = findViewById(R.id.team1_layout);
         LinearLayout team2Pyramid = findViewById(R.id.team2_layout);
@@ -67,7 +72,6 @@ public class IngameActivity extends Activity {
                 teamPyramid.addView(createPyramidColumn(1));
                 break;
         }
-
     }
 
     private LinearLayout createPyramidColumn(int size) {
@@ -79,10 +83,16 @@ public class IngameActivity extends Activity {
         layout.setLayoutParams(params);
         layout.setOrientation(LinearLayout.HORIZONTAL);
 
+        LinearLayout.LayoutParams btnParams = new LinearLayout.LayoutParams(150,150);
+
         for(int i=0; i<size; i++) {
             ImageButton btn = new ImageButton(this);
             btn.setImageResource(R.drawable.group_work_24px);
             btn.setOnClickListener(new ButtonListener());
+            btn.setBackgroundColor(Color.TRANSPARENT);
+            btn.setPadding(0,0,0,0);
+            btn.setLayoutParams(btnParams);
+            btn.setScaleType(ImageView.ScaleType.FIT_CENTER);
             layout.addView(btn);
         }
         return layout;
@@ -96,41 +106,66 @@ public class IngameActivity extends Activity {
 
         private boolean clickedAlready = false;
 
+        private ImageButton btn;
+
         @Override
         public void onClick(View view) {
 
-            createDareDialogActivity();
+            this.btn = (ImageButton) view;
 
+            if(clickedAlready) {
+                createDareFinishedToast();
+                makeCupInvisible();
+            } else {
+                createDareDialog(this);
+            }
             //TODO:
             //1) Popup dialog menu with dare and fulfilled yes no and selected cup
-            //2) Depending on yes no the cub will be removed
-            //3) Somehow remember whether the button was already clicked once
-            //4) If so popup with no dare available and Drink up
+        }
 
+        private void setFeedbackFromDialog(int response) {
+            switch(response) {
+                case DARE_SUCCESS:
+                    clickedAlready = true;
+                    makeCupUsed();
+                    break;
+                case DARE_CANCELED:
+                    break;
+                case DARE_FAILED:
+                    createDareFinishedToast();
+                    makeCupInvisible();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void makeCupUsed() {
+            btn.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+        }
+
+        private void makeCupInvisible() {
+            btn.setVisibility(View.INVISIBLE);
         }
     }
 
+    public void createDareFinishedToast() {
+        Context context = getApplicationContext();
+        CharSequence text = getResources().getString(R.string.drink);
+        int duration = Toast.LENGTH_SHORT;
 
-    private void createDareDialogActivity() {
-        Log.d(LOG_TAG, "Cup clicked!");
-
-        Intent intent = new Intent(this, DareDialogActivity.class);
-        startActivity(intent);
+        Toast toast = Toast.makeText(context, text, duration);
+        toast.show();
     }
 
 
-    /*
+    public void createDareDialog(final ButtonListener list) {
 
-    public void createDialog() {
-
-        // custom dialog
         final Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.dialog_pong);
         dialog.setTitle("Title...");
 
-        // set the custom dialog components - text, image and button
-        TextView text = (TextView) dialog.findViewById(R.id.text);
-
+        TextView text = dialog.findViewById(R.id.text);
         //TODO: get random dare
         text.setText("Android custom dialog example!");
 
@@ -142,6 +177,7 @@ public class IngameActivity extends Activity {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
+                list.setFeedbackFromDialog(ButtonListener.DARE_CANCELED);
             }
         });
 
@@ -149,6 +185,7 @@ public class IngameActivity extends Activity {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
+                list.setFeedbackFromDialog(ButtonListener.DARE_SUCCESS);
             }
         });
 
@@ -156,11 +193,11 @@ public class IngameActivity extends Activity {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
+                list.setFeedbackFromDialog(ButtonListener.DARE_FAILED);
             }
         });
 
-
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
-    }*/
+    }
 }

@@ -41,7 +41,7 @@
             android:name=".DareDialogActivity"
             android:label="DareDialogActivity"
             android:parentActivityName=".IngameActivity"
-            android:theme="@style/AppTheme.NoActionBar"
+            android:theme="@style/Theme.AppCompat.Dialog"
             android:excludeFromRecents="true" />
 
     </application>

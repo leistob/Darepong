@@ -1,6 +1,5 @@
 package tob.leis.darepong;
 
-import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
@@ -15,7 +14,4 @@ public class DareDialogActivity extends AppCompatActivity {
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         setFinishOnTouchOutside(false);
     }
-
-
-
 }
