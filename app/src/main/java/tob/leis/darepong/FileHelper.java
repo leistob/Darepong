@@ -30,4 +30,18 @@ public class FileHelper {
         }
         return json;
     }
+
+    public static String getRandomDare() {
+        String dare = null;
+
+
+        return dare;
+    }
+
+    public static String getLevel5Dare() {
+        String dare = null;
+
+
+        return dare;
+    }
 }

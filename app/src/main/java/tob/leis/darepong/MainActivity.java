@@ -1,17 +1,22 @@
 package tob.leis.darepong;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final String LOG_TAG = "MainActivity";
 
-    private Button startButton, continueButton, settingsButton, manualButton;
+    Button startButton, continueButton, settingsButton, manualButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                launchStartActivity();
+                createNewGameDialog();
             }
 
         });
@@ -62,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         System.out.println(FileHelper.loadCSVFromAsset(this));
     }
 
-    public void launchStartActivity() {
+    private void launchIngameActivity() {
         Log.d(LOG_TAG, "StartButton clicked!");
 
         Intent intent = new Intent(this, IngameActivity.class);
@@ -70,24 +75,63 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void launchSettingsActivity() {
+    private void launchSettingsActivity() {
         Log.d(LOG_TAG, "SettingsButton clicked!");
 
         //Intent intent = new Intent(this, AppCompatPreferenceActivity.class);
         //startActivity(intent);
     }
 
-    public void launchManualActivity() {
+    private void launchManualActivity() {
         Log.d(LOG_TAG, "ManualButton clicked!");
 
         Intent intent = new Intent(this, ManualActivity.class);
         startActivity(intent);
     }
 
-    public void launchContinueActivity() {
+    private void launchContinueActivity() {
         Log.d(LOG_TAG, "ContinueButton clicked!");
 
         Intent intent = new Intent(this, ManualActivity.class);
         startActivity(intent);
+    }
+
+    private void createNewGameDialog() {
+        final Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.dialog_start);
+        dialog.setTitle("Start");
+
+        TextView text = dialog.findViewById(R.id.text);
+        //TODO: get random dare
+        text.setText("Android custom dialog example!");
+
+        ImageButton cancelButton = dialog.findViewById(R.id.dialogButtonOK);
+        ImageButton successButton = dialog.findViewById(R.id.button_success);
+        ImageButton failureButton = dialog.findViewById(R.id.button_failure);
+
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        successButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                launchIngameActivity();
+            }
+        });
+
+        failureButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
     }
 }

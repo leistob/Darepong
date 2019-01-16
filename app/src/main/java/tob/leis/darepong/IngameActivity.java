@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -21,6 +22,9 @@ public class IngameActivity extends AppCompatActivity {
 
     private int size = 10;
 
+    private TextView team1Counter, team2Counter;
+    private LinearLayout team1Pyramid, team2Pyramid;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,33 +32,62 @@ public class IngameActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        LinearLayout team1Pyramid = findViewById(R.id.team1_layout);
-        LinearLayout team2Pyramid = findViewById(R.id.team2_layout);
+        team1Pyramid = findViewById(R.id.team1_layout);
+        team2Pyramid = findViewById(R.id.team2_layout);
 
         fillPyramidDown(team1Pyramid);
         fillPyramidUp(team2Pyramid);
+
+        team1Counter = findViewById(R.id.team1_counter);
+        team2Counter = findViewById(R.id.team2_counter);
+    }
+
+    public void subtractCup(ImageButton btn) {
+        if(btn.getParent().getParent().equals(team1Pyramid)) {
+            subtractTeam1();
+        } else {
+            subtractTeam2();
+        }
+    }
+
+    public void subtractTeam1() {
+        int currentAmount = Integer.parseInt(team1Counter.getText().toString());
+        if(currentAmount == 1) {
+            //TODO: trigger ending
+            return;
+        }
+        team1Counter.setText(String.valueOf(currentAmount-1));
+    }
+
+    public void subtractTeam2() {
+        int currentAmount = Integer.parseInt(team2Counter.getText().toString());
+        if(currentAmount == 1) {
+            //TODO: trigger ending
+            return;
+        }
+        team2Counter.setText(String.valueOf(currentAmount-1));
     }
 
     private void fillPyramidUp(LinearLayout teamPyramid) {
 
         switch(size) {
             case 1:
-                teamPyramid.addView(createPyramidColumn(1));
+                teamPyramid.addView(createPyramidRow(1));
                 break;
             case 3:
-                teamPyramid.addView(createPyramidColumn(1));
-                teamPyramid.addView(createPyramidColumn(2));
+                teamPyramid.addView(createPyramidRow(1));
+                teamPyramid.addView(createPyramidRow(2));
                 break;
             case 6:
-                teamPyramid.addView(createPyramidColumn(1));
-                teamPyramid.addView(createPyramidColumn(2));
-                teamPyramid.addView(createPyramidColumn(3));
+                teamPyramid.addView(createPyramidRow(1));
+                teamPyramid.addView(createPyramidRow(2));
+                teamPyramid.addView(createPyramidRow(3));
                 break;
             case 10:
-                teamPyramid.addView(createPyramidColumn(1));
-                teamPyramid.addView(createPyramidColumn(2));
-                teamPyramid.addView(createPyramidColumn(3));
-                teamPyramid.addView(createPyramidColumn(4));
+                teamPyramid.addView(createPyramidRow(1));
+                teamPyramid.addView(createPyramidRow(2));
+                teamPyramid.addView(createPyramidRow(3));
+                teamPyramid.addView(createPyramidRow(4));
                 break;
         }
     }
@@ -63,18 +96,18 @@ public class IngameActivity extends AppCompatActivity {
 
         switch(size) {
             case 10:
-                teamPyramid.addView(createPyramidColumn(4));
+                teamPyramid.addView(createPyramidRow(4));
             case 6:
-                teamPyramid.addView(createPyramidColumn(3));
+                teamPyramid.addView(createPyramidRow(3));
             case 3:
-                teamPyramid.addView(createPyramidColumn(2));
+                teamPyramid.addView(createPyramidRow(2));
             case 1:
-                teamPyramid.addView(createPyramidColumn(1));
+                teamPyramid.addView(createPyramidRow(1));
                 break;
         }
     }
 
-    private LinearLayout createPyramidColumn(int size) {
+    private LinearLayout createPyramidRow(int size) {
         LinearLayout layout = new LinearLayout(this);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -114,13 +147,10 @@ public class IngameActivity extends AppCompatActivity {
             this.btn = (ImageButton) view;
 
             if(clickedAlready) {
-                createDareFinishedToast();
-                makeCupInvisible();
+                deleteCup();
             } else {
                 createDareDialog(this);
             }
-            //TODO:
-            //1) Popup dialog menu with dare and fulfilled yes no and selected cup
         }
 
         private void setFeedbackFromDialog(int response) {
@@ -132,19 +162,26 @@ public class IngameActivity extends AppCompatActivity {
                 case DARE_CANCELED:
                     break;
                 case DARE_FAILED:
-                    createDareFinishedToast();
-                    makeCupInvisible();
+                    deleteCup();
                     break;
                 default:
                     break;
             }
         }
 
+        private void deleteCup() {
+            createDareFinishedToast();
+            makeCupInvisible();
+            subtractCup(this.btn);
+        }
+
+
         private void makeCupUsed() {
             btn.setBackgroundColor(getResources().getColor(R.color.colorAccent));
         }
 
         private void makeCupInvisible() {
+            //TODO Animation to drink (flickering?)
             btn.setVisibility(View.INVISIBLE);
         }
     }
