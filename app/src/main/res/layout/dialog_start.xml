@@ -5,46 +5,45 @@
     android:layout_height="400dp"
     android:background="@layout/dialog_bg">
 
-
-    <ImageButton
-        android:id="@+id/dialogButtonOK"
+    <TextView
+        android:id="@+id/text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
         android:layout_centerInParent="true"
-        app:srcCompat="@drawable/cancel_24px" />
+        android:gravity="center"
+        android:textColor="#000"
+        android:text="Lellek"/>
 
-        <TextView
-            android:id="@+id/text"
+    <LinearLayout
+        android:id="@+id/layout_buttons"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/button_success"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:gravity="center"
-            android:textColor="#000"
-            android:text="Lellek"/>
+            android:layout_weight="1"
+            app:srcCompat="@drawable/check_circle_24px" />
 
-        <LinearLayout
-            android:id="@+id/layout_buttons"
+        <ImageButton
+            android:id="@+id/button_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerInParent="true"
-            android:orientation="horizontal">
+            android:layout_weight="1"
+            app:srcCompat="@drawable/cancel_24px" />
 
-            <ImageButton
-                android:id="@+id/button_success"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                app:srcCompat="@drawable/thumb_up_24px" />
+        <NumberPicker
+            android:id="@+id/number_picker_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="2">
 
-            <ImageButton
-                android:id="@+id/button_failure"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                app:srcCompat="@drawable/thumb_down_24px" />
+        </NumberPicker>
 
-        </LinearLayout>
+    </LinearLayout>
 
 </RelativeLayout>

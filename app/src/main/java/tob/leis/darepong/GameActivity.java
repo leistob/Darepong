@@ -9,28 +9,36 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class IngameActivity extends AppCompatActivity {
+import static tob.leis.darepong.MainActivity.AMOUNT_CUPS;
 
-    private static final String LOG_TAG = "IngameActivity";
+public class GameActivity extends AppCompatActivity {
 
-    private int size = 10;
+    private static final String LOG_TAG = "GameActivity";
+
+    private int size;
 
     private TextView team1Counter, team2Counter;
-    private LinearLayout team1Pyramid, team2Pyramid;
+    LinearLayout team1Pyramid, team2Pyramid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ingame);
+        setContentView(R.layout.activity_game);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        Bundle extras = getIntent().getExtras();
+        if(extras != null) {
+            size = extras.getInt(AMOUNT_CUPS);
+        } else {
+            size = 10;
+        }
 
         team1Pyramid = findViewById(R.id.team1_layout);
         team2Pyramid = findViewById(R.id.team2_layout);
@@ -40,6 +48,11 @@ public class IngameActivity extends AppCompatActivity {
 
         team1Counter = findViewById(R.id.team1_counter);
         team2Counter = findViewById(R.id.team2_counter);
+
+        team1Counter.setText(String.valueOf(size));
+        team2Counter.setText(String.valueOf(size));
+
+        //TODO: Set pyramid always to back not to front (size < 10)
     }
 
     public void subtractCup(ImageButton btn) {
@@ -120,7 +133,7 @@ public class IngameActivity extends AppCompatActivity {
 
         for(int i=0; i<size; i++) {
             ImageButton btn = new ImageButton(this);
-            btn.setImageResource(R.drawable.group_work_24px);
+            btn.setImageResource(R.drawable.cup_white_24px);
             btn.setOnClickListener(new ButtonListener());
             btn.setBackgroundColor(Color.TRANSPARENT);
             btn.setPadding(0,0,0,0);
@@ -177,7 +190,7 @@ public class IngameActivity extends AppCompatActivity {
 
 
         private void makeCupUsed() {
-            btn.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+            btn.setImageResource(R.drawable.cup_grey_24px);
         }
 
         private void makeCupInvisible() {

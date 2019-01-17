@@ -19,7 +19,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".IngameActivity"
+            android:name=".GameActivity"
             android:label="@string/title_activity_ingame"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -40,7 +40,7 @@
         <activity
             android:name=".DareDialogActivity"
             android:label="DareDialogActivity"
-            android:parentActivityName=".IngameActivity"
+            android:parentActivityName=".GameActivity"
             android:theme="@style/Theme.AppCompat.Dialog"
             android:excludeFromRecents="true" />
 

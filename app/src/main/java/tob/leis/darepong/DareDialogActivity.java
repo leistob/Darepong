@@ -10,7 +10,7 @@ public class DareDialogActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dare_dialog);
+        setContentView(R.layout.dare_dialog);
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         setFinishOnTouchOutside(false);
     }

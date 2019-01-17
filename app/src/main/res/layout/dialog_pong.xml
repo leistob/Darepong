@@ -14,37 +14,37 @@
         android:layout_centerInParent="true"
         app:srcCompat="@drawable/cancel_24px" />
 
-        <TextView
-            android:id="@+id/text"
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:textColor="#000"
+        android:text="Lellek"/>
+
+    <LinearLayout
+        android:id="@+id/layout_buttons"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/button_success"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:gravity="center"
-            android:textColor="#000"
-            android:text="Lellek"/>
+            android:layout_weight="1"
+            app:srcCompat="@drawable/thumb_up_24px" />
 
-        <LinearLayout
-            android:id="@+id/layout_buttons"
+        <ImageButton
+            android:id="@+id/button_failure"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerInParent="true"
-            android:orientation="horizontal">
+            android:layout_weight="1"
+            app:srcCompat="@drawable/thumb_down_24px" />
 
-            <ImageButton
-                android:id="@+id/button_success"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                app:srcCompat="@drawable/thumb_up_24px" />
-
-            <ImageButton
-                android:id="@+id/button_failure"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                app:srcCompat="@drawable/thumb_down_24px" />
-
-        </LinearLayout>
+    </LinearLayout>
 
 </RelativeLayout>
