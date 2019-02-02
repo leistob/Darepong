@@ -69,8 +69,6 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
-
-        System.out.println(FileHelper.loadCSVFromAsset(this));
     }
 
     private void launchGameActivity(String names, int amountCups) {
@@ -84,9 +82,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void launchSettingsActivity() {
         Log.d(LOG_TAG, "launchSettingsActivity");
-
-        //Intent intent = new Intent(this, AppCompatPreferenceActivity.class);
-        //startActivity(intent);
     }
 
     private void launchManualActivity() {

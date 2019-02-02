@@ -11,6 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".SettingsActivity"></activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,26 +25,16 @@
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".SettingsActivity"
-            android:label="@string/title_activity_settings"
-            android:parentActivityName=".MainActivity" />
-        <activity
             android:name=".ManualActivity"
             android:label="@string/title_activity_manual"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <!--
-            <activity android:name=".AppCompatPreferenceActivity"
-            android:label="AppCompatPreferenceActivity"
-            android:parentActivityName=".MainActivity"/>
-        -->
         <activity
             android:name=".DareDialogActivity"
+            android:excludeFromRecents="true"
             android:label="DareDialogActivity"
             android:parentActivityName=".GameActivity"
-            android:theme="@style/Theme.AppCompat.Dialog"
-            android:excludeFromRecents="true" />
-
+            android:theme="@style/Theme.AppCompat.Dialog" />
     </application>
 
 </manifest>

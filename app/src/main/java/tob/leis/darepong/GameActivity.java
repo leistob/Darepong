@@ -26,6 +26,8 @@ public class GameActivity extends AppCompatActivity {
     private TextView team1Counter, team2Counter;
     LinearLayout team1Pyramid, team2Pyramid;
 
+    private DareGenerator dareGenerator;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +54,7 @@ public class GameActivity extends AppCompatActivity {
         team1Counter.setText(String.valueOf(size));
         team2Counter.setText(String.valueOf(size));
 
-        //TODO: Set pyramid always to back not to front (size < 10)
+        dareGenerator = new DareGenerator(this);
     }
 
     public void subtractCup(ImageButton btn) {
@@ -216,8 +218,9 @@ public class GameActivity extends AppCompatActivity {
         dialog.setTitle("Title...");
 
         TextView text = dialog.findViewById(R.id.text);
-        //TODO: get random dare
-        text.setText("Android custom dialog example!");
+        //TODO: get dare depending on selected level
+        String randomDare = dareGenerator.getRandomDare();
+        text.setText(randomDare);
 
         ImageButton cancelButton = dialog.findViewById(R.id.dialogButtonOK);
         ImageButton successButton = dialog.findViewById(R.id.button_success);
