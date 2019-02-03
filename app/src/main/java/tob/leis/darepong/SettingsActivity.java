@@ -5,9 +5,14 @@ import android.os.Bundle;
 
 public class SettingsActivity extends AppCompatActivity {
 
+    public static final String KEY_TEST = "switch_preference_1";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_settings);
+
+        getSupportFragmentManager().beginTransaction()
+                .replace(android.R.id.content, new SettingsFragment())
+                .commit();
     }
 }

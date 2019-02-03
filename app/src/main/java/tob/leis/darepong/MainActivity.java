@@ -2,6 +2,7 @@ package tob.leis.darepong;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.NumberPicker;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -69,6 +71,14 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
+
+        android.support.v7.preference.PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+
+        SharedPreferences sharedPref = android.support.v7.preference.PreferenceManager.getDefaultSharedPreferences(this);
+
+        Boolean switchPref = sharedPref.getBoolean(SettingsActivity.KEY_TEST, false);
+
+        Toast.makeText(this, switchPref.toString(), Toast.LENGTH_SHORT).show();
     }
 
     private void launchGameActivity(String names, int amountCups) {
@@ -82,6 +92,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void launchSettingsActivity() {
         Log.d(LOG_TAG, "launchSettingsActivity");
+
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
     }
 
     private void launchManualActivity() {
