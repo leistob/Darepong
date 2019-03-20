@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageButton;
@@ -122,7 +123,7 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
-    private LinearLayout createPyramidRow(int size) {
+    private LinearLayout createPyramidRow(int rowSize) {
         LinearLayout layout = new LinearLayout(this);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -133,7 +134,7 @@ public class GameActivity extends AppCompatActivity {
 
         LinearLayout.LayoutParams btnParams = new LinearLayout.LayoutParams(150,150);
 
-        for(int i=0; i<size; i++) {
+        for(int i=0; i<rowSize; i++) {
             ImageButton btn = new ImageButton(this);
             btn.setImageResource(R.drawable.cup_white_24px);
             btn.setOnClickListener(new ButtonListener());
@@ -252,5 +253,41 @@ public class GameActivity extends AppCompatActivity {
 
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
+    }
+
+
+    public void rearrangeTeam1(View view) {
+        Log.d(LOG_TAG, "rearrange1");
+        rearrange(1);
+    }
+
+    public void rearrangeTeam2(View view) {
+        Log.d(LOG_TAG, "rearrange2");
+        rearrange(2);
+    }
+
+    private void rearrange(int team) {
+
+        int currentAmount = team == 1 ?
+                                Integer.parseInt(team1Counter.getText().toString()) :
+                                Integer.parseInt(team2Counter.getText().toString());
+
+        startRearrangeDialog();
+    }
+
+    private void startRearrangeDialog() {
+        //Get linearlayout from dialog
+        //fill up or down, but grey out
+        //wait for btn click
+        //
+        //TODO
+        //Create Textview with cupcounter
+        //When one cup is selected subtract one from cupcounter
+        //only accept when cupcounter is 0
+        //OK and CANCEL
+        //When OK: make unselected cups invisible, leave the rest
+        //btn.setVisibility(false);
+
+        //take this LinearLayout and replace old one with this one
     }
 }

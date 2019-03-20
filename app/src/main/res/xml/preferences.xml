@@ -15,13 +15,17 @@
 
     <android.support.v7.preference.PreferenceCategory
         android:key="pref_cat2"
-        android:title="Notifications">
+        android:title="@string/settings_difficulty">
 
-        <android.support.v7.preference.SwitchPreferenceCompat
-            android:defaultValue="false"
-            android:key="switch_preference_2"
-            android:summary="Turn this on or off"
-            android:title="Switch preference" />
+        <MultiSelectListPreference
+            android:dialogTitle="@string/select_levels"
+            android:key="select_levels"
+            android:summary="Define the amount of shame for the next game."
+            android:title="@string/settings_darelevel"
+            android:entries="@array/levels_array"
+            android:entryValues="@array/levels_array"
+            android:defaultValue="@array/levels_default_array"
+            />
 
     </android.support.v7.preference.PreferenceCategory>
 

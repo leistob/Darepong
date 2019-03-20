@@ -14,5 +14,11 @@ public class SettingsActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction()
                 .replace(android.R.id.content, new SettingsFragment())
                 .commit();
+
+
+        //Welche "schwierigkeit"?
+         //       Spielernamen
+        //Status der Datei
+
     }
 }

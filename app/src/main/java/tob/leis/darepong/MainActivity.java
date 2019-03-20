@@ -24,61 +24,15 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String[] possibleValues = {"10", "6", "3", "1"};
 
-    Button startButton, continueButton, settingsButton, manualButton;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        startButton = findViewById(R.id.button_start);
-        continueButton = findViewById(R.id.button_continue);
-        settingsButton = findViewById(R.id.button_settings);
-        manualButton = findViewById(R.id.button_manual);
-
-        startButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                createNewGameDialog();
-            }
-
-        });
-
-        continueButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                //TODO
-            }
-
-        });
-
-        settingsButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                launchSettingsActivity();
-            }
-
-        });
-
-        manualButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                launchManualActivity();
-            }
-
-        });
-
         android.support.v7.preference.PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
         SharedPreferences sharedPref = android.support.v7.preference.PreferenceManager.getDefaultSharedPreferences(this);
-
         Boolean switchPref = sharedPref.getBoolean(SettingsActivity.KEY_TEST, false);
-
-        Toast.makeText(this, switchPref.toString(), Toast.LENGTH_SHORT).show();
     }
 
     private void launchGameActivity(String names, int amountCups) {
@@ -90,45 +44,35 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void launchSettingsActivity() {
+    public void launchSettingsActivity(View view) {
         Log.d(LOG_TAG, "launchSettingsActivity");
 
         Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
     }
 
-    private void launchManualActivity() {
+    public void launchManualActivity(View view) {
         Log.d(LOG_TAG, "launchManualActivity");
 
-        Intent intent = new Intent(this, ManualActivity.class);
+        Intent intent = new Intent(this, TestActivity.class);
         startActivity(intent);
     }
 
-    private void launchContinueActivity() {
-        Log.d(LOG_TAG, "launchContinueActivity");
-
-        Intent intent = new Intent(this, ManualActivity.class);
-        startActivity(intent);
-    }
-
-    private void createNewGameDialog() {
+    public void createNewGameDialog(View view) {
         final Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.dialog_start);
         dialog.setTitle("Start");
 
-        TextView text = dialog.findViewById(R.id.text);
-        //TODO: get random dare
-        text.setText("Android custom dialog example!");
+        /*TextView text = dialog.findViewById(R.id.text);
+        text.setText("Android custom dialog example!");*/
 
         ImageButton cancelButton = dialog.findViewById(R.id.button_cancel);
         ImageButton successButton = dialog.findViewById(R.id.button_success);
 
         final NumberPicker np = dialog.findViewById(R.id.number_picker_start);
-
         np.setMinValue(1);
         np.setMaxValue(4);
         np.setDisplayedValues(possibleValues);
-
 
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
