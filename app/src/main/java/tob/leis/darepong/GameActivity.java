@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -22,10 +23,16 @@ public class GameActivity extends AppCompatActivity {
 
     private static final String LOG_TAG = "GameActivity";
 
-    private int size;
+    private static final int TEAM_1 = 1;
+    private static final int TEAM_2 = 2;
+
+    private int pyramidSize;
 
     private TextView team1Counter, team2Counter;
     LinearLayout team1Pyramid, team2Pyramid;
+
+    public TextView rearrangeCounter;
+    public ImageButton rearrangeBtn;
 
     private DareGenerator dareGenerator;
 
@@ -38,22 +45,22 @@ public class GameActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         if(extras != null) {
-            size = extras.getInt(AMOUNT_CUPS);
+            pyramidSize = extras.getInt(AMOUNT_CUPS);
         } else {
-            size = 10;
+            pyramidSize = 10;
         }
 
         team1Pyramid = findViewById(R.id.team1_layout);
         team2Pyramid = findViewById(R.id.team2_layout);
 
-        fillPyramidDown(team1Pyramid);
-        fillPyramidUp(team2Pyramid);
+        fillPyramidDown(team1Pyramid, true);
+        fillPyramidUp(team2Pyramid, true);
 
         team1Counter = findViewById(R.id.team1_counter);
         team2Counter = findViewById(R.id.team2_counter);
 
-        team1Counter.setText(String.valueOf(size));
-        team2Counter.setText(String.valueOf(size));
+        team1Counter.setText(String.valueOf(pyramidSize));
+        team2Counter.setText(String.valueOf(pyramidSize));
 
         dareGenerator = new DareGenerator(this);
     }
@@ -84,46 +91,44 @@ public class GameActivity extends AppCompatActivity {
         team2Counter.setText(String.valueOf(currentAmount-1));
     }
 
-    private void fillPyramidUp(LinearLayout teamPyramid) {
-
-        switch(size) {
+    private void fillPyramidUp(LinearLayout teamPyramid, boolean cupsEnabled) {
+        switch(pyramidSize) {
             case 1:
-                teamPyramid.addView(createPyramidRow(1));
+                teamPyramid.addView(createPyramidRow(1, cupsEnabled));
                 break;
             case 3:
-                teamPyramid.addView(createPyramidRow(1));
-                teamPyramid.addView(createPyramidRow(2));
+                teamPyramid.addView(createPyramidRow(1, cupsEnabled));
+                teamPyramid.addView(createPyramidRow(2, cupsEnabled));
                 break;
             case 6:
-                teamPyramid.addView(createPyramidRow(1));
-                teamPyramid.addView(createPyramidRow(2));
-                teamPyramid.addView(createPyramidRow(3));
+                teamPyramid.addView(createPyramidRow(1, cupsEnabled));
+                teamPyramid.addView(createPyramidRow(2, cupsEnabled));
+                teamPyramid.addView(createPyramidRow(3, cupsEnabled));
                 break;
             case 10:
-                teamPyramid.addView(createPyramidRow(1));
-                teamPyramid.addView(createPyramidRow(2));
-                teamPyramid.addView(createPyramidRow(3));
-                teamPyramid.addView(createPyramidRow(4));
+                teamPyramid.addView(createPyramidRow(1, cupsEnabled));
+                teamPyramid.addView(createPyramidRow(2, cupsEnabled));
+                teamPyramid.addView(createPyramidRow(3, cupsEnabled));
+                teamPyramid.addView(createPyramidRow(4, cupsEnabled));
                 break;
         }
     }
 
-    private void fillPyramidDown(LinearLayout teamPyramid) {
-
-        switch(size) {
+    private void fillPyramidDown(LinearLayout teamPyramid, boolean cupsEnabled) {
+        switch(pyramidSize) {
             case 10:
-                teamPyramid.addView(createPyramidRow(4));
+                teamPyramid.addView(createPyramidRow(4, cupsEnabled));
             case 6:
-                teamPyramid.addView(createPyramidRow(3));
+                teamPyramid.addView(createPyramidRow(3, cupsEnabled));
             case 3:
-                teamPyramid.addView(createPyramidRow(2));
+                teamPyramid.addView(createPyramidRow(2, cupsEnabled));
             case 1:
-                teamPyramid.addView(createPyramidRow(1));
+                teamPyramid.addView(createPyramidRow(1, cupsEnabled));
                 break;
         }
     }
 
-    private LinearLayout createPyramidRow(int rowSize) {
+    private LinearLayout createPyramidRow(int rowSize, boolean enabled) {
         LinearLayout layout = new LinearLayout(this);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -136,8 +141,14 @@ public class GameActivity extends AppCompatActivity {
 
         for(int i=0; i<rowSize; i++) {
             ImageButton btn = new ImageButton(this);
-            btn.setImageResource(R.drawable.cup_white_24px);
-            btn.setOnClickListener(new ButtonListener());
+            if(enabled) {
+                btn.setImageResource(R.drawable.cup_white_24px);
+                btn.setOnClickListener(new ButtonListener());
+            } else {
+                btn.setImageResource(R.drawable.cup_grey_24px);
+                btn.setOnClickListener(new RearrangeListener());
+            }
+
             btn.setBackgroundColor(Color.TRANSPARENT);
             btn.setPadding(0,0,0,0);
             btn.setLayoutParams(btnParams);
@@ -219,7 +230,6 @@ public class GameActivity extends AppCompatActivity {
         dialog.setTitle("Title...");
 
         TextView text = dialog.findViewById(R.id.text);
-        //TODO: get dare depending on selected level
         String randomDare = dareGenerator.getRandomDare();
         text.setText(randomDare);
 
@@ -255,15 +265,18 @@ public class GameActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////// Rearrange functions /////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////
 
     public void rearrangeTeam1(View view) {
         Log.d(LOG_TAG, "rearrange1");
-        rearrange(1);
+        rearrange(TEAM_1);
     }
 
     public void rearrangeTeam2(View view) {
         Log.d(LOG_TAG, "rearrange2");
-        rearrange(2);
+        rearrange(TEAM_2);
     }
 
     private void rearrange(int team) {
@@ -272,22 +285,91 @@ public class GameActivity extends AppCompatActivity {
                                 Integer.parseInt(team1Counter.getText().toString()) :
                                 Integer.parseInt(team2Counter.getText().toString());
 
-        startRearrangeDialog();
+        startRearrangeDialog(team, currentAmount);
     }
 
-    private void startRearrangeDialog() {
-        //Get linearlayout from dialog
-        //fill up or down, but grey out
-        //wait for btn click
-        //
-        //TODO
-        //Create Textview with cupcounter
-        //When one cup is selected subtract one from cupcounter
-        //only accept when cupcounter is 0
-        //OK and CANCEL
-        //When OK: make unselected cups invisible, leave the rest
-        //btn.setVisibility(false);
 
-        //take this LinearLayout and replace old one with this one
+    class RearrangeListener implements View.OnClickListener {
+
+        private boolean activated = false;
+        private ImageButton btn;
+
+        @Override
+        public void onClick(View view) {
+
+            this.btn = (ImageButton) view;
+            int currentAmount = Integer.parseInt(rearrangeCounter.getText().toString());
+
+            if( (currentAmount == 0 && !activated)) {
+                return;
+            }
+
+            int newAmount;
+            if(activated) {
+                newAmount = currentAmount + 1;
+                makeCupDeactivated();
+
+            } else {
+                newAmount = currentAmount -1;
+                makeCupActivated();
+            }
+            activated = !activated;
+
+            if(newAmount == 0) {
+                rearrangeBtn.setBackgroundColor(Color.WHITE);
+            } else {
+                rearrangeBtn.setBackgroundColor(Color.BLACK);
+            }
+            rearrangeCounter.setText(String.valueOf(newAmount));
+        }
+
+        //TODO catch possibilities for the different counter
+
+        private void makeCupActivated() {
+            btn.setImageResource(R.drawable.cup_white_24px);
+        }
+        private void makeCupDeactivated() {
+            btn.setImageResource(R.drawable.cup_grey_24px);
+        }
+        private void makeCupInvisible() {
+            btn.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    private void startRearrangeDialog(int team, int cupAmount) {
+
+        final Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.dialog_rearrange);
+        dialog.setTitle("Title...");
+        rearrangeCounter = dialog.findViewById(R.id.amount_cups);
+        rearrangeBtn = dialog.findViewById(R.id.button_success);
+        ImageButton failureButton = dialog.findViewById(R.id.button_failure);
+        LinearLayout pyramidLayout = dialog.findViewById(R.id.rearrange_pyramid);
+
+        if(team == TEAM_1) {
+            fillPyramidDown(pyramidLayout, false);
+        } else {
+            fillPyramidUp(pyramidLayout, false);
+        }
+
+        rearrangeBtn.setEnabled(false);
+        rearrangeCounter.setText(String.valueOf(cupAmount));
+        rearrangeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                //TODO Swap pyramid layouts
+            }
+        });
+
+        failureButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
     }
 }
